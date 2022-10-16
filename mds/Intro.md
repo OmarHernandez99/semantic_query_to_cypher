@@ -14,29 +14,25 @@ Este cometido trae consigo no pocos retos. Entre los principales se encuentra la
 
 Los grafos de conocimiento son estructuras que han venido ganando popularidad como formas de guardar información desde hace varios años. Son capaces de modelar una amplísima gama de escenarios reales manteniendo un nivel alto de simplicidad y lectura por humanos.
 
-Por otro lado, el avance en la comprensión del lenguaje natural, con algunos modelos de ML como GPT-3 y BERT, ha permitido acortar la distancia entre lo que pueden entender los sistemas expertos y lo que expresa el hombre en lenguaje común. Estos modelos ayudan a traducir con cierto grado de certeza, las palabras del lenguaje natural, a estructuras llamadas embbedings, que incorporan el concepto de cercanía vectorial cuando dos palabras son semánticamente cercanas.
+Por otro lado, el avance en la comprensión del lenguaje natural, con algunos modelos de aprendisaje de máquina como GPT-3 y BERT, ha permitido acortar la distancia entre lo que pueden entender los sistemas expertos y lo que expresa el hombre en lenguaje común. Estos modelos ayudan a traducir con cierto grado de certeza, las palabras del lenguaje natural, a estructuras llamadas embbedings, que incorporan el concepto de cercanía vectorial cuando dos palabras son semánticamente cercanas.
 
-Se podria entonces pensar en una solución que se ayude de lo investigado hasta ahora en estas dos áreas, sumándole toda la teoría de lenguaje, para crear un framework que reciba una consulta en lenguaje natural, dirigida a una base de conocimiento, y devuelva con una elevada precisión los resultados buscados.
+En lo que respecta a la comprensión del lenguaje natural y su uso en consultas a bases de conocimiento existen investigaciones que han logrado buenos resultados por varias vías distintas. Principalmente se hacen análisis sintácticos y semánticos sobre la consulta, muchas veces asistidos por diccionarios o mapas sobre la base de conocimiento en cuestión. Se usan modelos de paráphrasis como técnica de aumento de datos y principalmente Transformers para llevar de la consulta ya curada al lenguaje de consulta formal, en la mayoria de los casos, SQL.
 
-//////////////////////////////////////////////
-De aki abajo creo q necesito preguntarle mas cosas y decidirnos sobre otras
-//////////////////////////////////////////////
+Lo expuesto anteriormente provee un marco propicio para idear una solución que se apoye en lo investigado hasta ahora en los campos de teoría de grafos y procesamiento del lenguaje natural, sumándole además toda la teoría de lenguaje, para crear un framework que reciba una consulta en lenguaje natural, dirigida a una base de conocimiento, y devuelva con una elevada precisión los resultados buscados.
 
-## Pequenio State of the Art
-En este tema existen investigaciones que han logrado buenos resultados por varias vías distintas. Principalmente se hacen análisis sintácticos y semánticos sobre la consulta, muchas veces asistidos por diccionarios o mapas sobre la base de conocimiento en cuestión. Se usan modelos de paráphrasis como técnica de aumento de datos y principalmente Transformers para llevar de la consulta ya curada al lenguaje de consulta formal, en la mayoria de los casos, SQL.
-
-///////////////////////////////////////////////////////////
-
-
-Con estas partes tengo duda, ya me ha dicho la estructura general que tienen, y eso es lo que está plasmado abajo, pero con respecto a la especificidad de mi problema es lo que tengo que poner y no se si nos tenemos que sentar para eso? espero respuesta por aki
 
 ## Situacion Problemica
-A pesar de los avances en nlp en estos momentos tod no existe un sistema que permita convertir de ln a un lenguaje de consulta que sea capaz de representar agregaciones, filtros ... 
+A pesar de los avances hechos en estos campos por la comunidad científica, no se encontró un sistema completo de público acceso que permita,dado una base de conocimiento con datos y una estructura arbitraria, hacer una consulta en lenguaje semi-natural, más cercano al hablado comúnmente, sobre la información almacenadda, y obtener los resultados con la posibilidad de incluir agregaciones y filtros. La mayor parte de las investigaciones analizadas que obtienen buenos resultados estan enfocadas solamente en bases de datos SQL, y no se pueden utilizar para la búsqueda en bases de datos con estructura de grafos, que es de la forma en que se encuentran gran parte de las bases de conocimiento a dia de hoy.
 
 ## Objetivos Generales
-Hacer una estrategia para consultar bc en leng nat basada en el paradigma ..., que puede ser aplicada a bases de conocimiento arbitrarias, formadas por entidades y relaciones de dominio general ...
+Comprobar la viabilidad de una arquitectura y un prototipo de un sistema que permita, dado una base de conocimiento con estructura arbitraria en forma de grafo,
+introducir una consulta en lenguaje semi-natural sobre los datos almacenados, incluyendo agregaciones y filtros, y transformarla en una consulta en un lenguaje formal de consultas, entendible sin ambiguedades por lo motores de búsqueda para grafos, como lo es el lenguaje CYPHER. Lo anterior usando principalmente teoría de los lenguajes formales y procesamiento de lenguaje natural.
 
 ## Objetivos Especificos
-Vamos a identificar los modelos que hay pa esto en el estado del arte...? Parte de la propuesta de sol,
-Hacer una implementacion computacional de [algo], vamos a diseniar un conjunto de casos de prueba pa experimentar y vamos a hacer una evaluacion cuantitativa y cualitativa bim bam
+
+- Investigar estado del arte sobre procesamiento de lenguaje natural, bases de conocimiento en forma de grafos y teoría de los lenguajes formales.
+- Analizar las técnicas y resultados obtenidos por las investigaciones que resultaron más prometedoras en el punto anterior.
+- Crear una Arquitectura divida en módulos:Parseo, Procesador Semántico, Creación de Árbol de Sintaxis Abstracta(AST), Módulo de Aumentación de los Datos, Generación de Consulta en Cypher.
+- Implementar un prototipo de la arquitectura mencionada en el punto anterior en el lenguaje Python
+- Realizar Experimentos para evaluar la viabilidad de la arquitectura propuesta usando los datos generados por el Módulo de Aumentación de Datos.
 
