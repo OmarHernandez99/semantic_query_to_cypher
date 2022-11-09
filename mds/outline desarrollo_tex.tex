@@ -1,0 +1,73 @@
+- Se hace una arquitectura
+- Se genera data
+- Se hace una ui
+
+## Arquitectura
+### Modulos
+- Graph-Contractor
+- Lenguaje-Intermedio
+- Pre-Processor
+- Post-Processor
+- Parser-to-AST
+- Query-Maker
+- Data-Generation
+
+
+## Graph-Contractor
+El papel del *Graph-Contractor* es el de interactuar con el grafo de conocimiento en cuesti\'on. 
+
+Hace una recopilaci\'on de las etiquetas de los nodos del grafo y de los atributos de estas. 
+
+Adem\'as es responsable de hacer consultas en lenguaje cypher al grafo. 
+
+Lenguaje-Intermedio
+Se hace una estructura de un lenguaje intermedio entre el lenguaje natural y el lenguaje de consulta de neo4j, Cypher.
+
+El lenguaje cuenta con su representaci\'on en AST[]
+
+Tiene las caracter\isticas que se creyeron esenciales en un lenguaje de consulta, como los filtros y las agregaciones
+
+Pre-Processor
+La tarea del pre-procesador es recibir la query virgen en lenguaje natural y hacerla mas potable para su procesamiento del sistema.
+
+Se hace primero una correci\'on de palabras mal escritas usando distancia Levenshtein[] y el GraphContractor
+
+Se reemplazan las palabras por sus respectivas etiquetas usando el GraphContractor, se usan las etiquetas: "LABEL" y "ATTRIBUTE". 
+
+Esto ayuda sobre todo a que el sistema pueda generalizar mejor y que no sea necesario entrenar el sistema para cada grafo de conocimiento distinto.
+
+Post-Processor
+El post-procesador es el encargado de hacer la traducci\'on de la query pre-procesada a un lenguaje intermedio.
+
+Se usa un modelo T5 para hacer la traducci\'on.
+
+Luego se recuperan las palabras originales a las que se les puso etiquetas
+
+
+Parser-to-AST
+El parser recibe una consulta en lenguaje intermedio y la transforma a una instancia de AST.
+
+Query-Maker
+El Query-Maker es el encargado de hacer la traducci\'on de la instancia de AST a una consulta en Cypher.
+
+Data-Generation
+El m\'odulo de generaci\'on de datos es el encargado de producir consultas sint\'eticas.
+
+Esta compuesto de 3 subm\'odulos:
+- Ast-Generator
+- Query-Generator
+- Word-Module
+
+Ast-Generator
+El Ast-Generator es el encargado de generar instancias de AST sint\'eticas. Para eso se apoya en el GraphContractor para saber que nodos y atributos existen en el grafo de conocimiento.
+
+Query-Generator
+El Query-Generator es el encargado de generar consultas en lenguaje pseudo-natural. 
+A partir de una instancia de AST, genera variaciones del lenguanje que expresan la misma idea, con ayuda del *Word-Module*
+
+Word-Module
+El Word-Module es el encargado de proveer palabras que expresen la misma idea, pero que no sean iguales.
+Esta implementado de forma que sea independiente del resto del sistema el agregar nuevas etiquetas, palabras, frases o incluso soporte para un nuevo lenguaje.
+
+
+
