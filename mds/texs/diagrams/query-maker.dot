@@ -1,0 +1,61 @@
+digraph G {
+
+    /* Entities */
+    S [label="Select", shape=box, style=filled, fillcolor=lightblue];
+
+    E [label="Entity", shape=box, style=filled, fillcolor=lightblue];
+    R [label="Return", shape=box, style=filled, fillcolor=lightblue];
+
+    T [label="Type", shape=box style=filled, fillcolor=lightblue];
+    F [label="Filter", shape=box, style=filled, fillcolor=lightblue];
+
+    A [label="Aggregation", shape=box, style=filled, fillcolor=lightblue];
+    O [label="Order", shape=box, style=filled, fillcolor=lightblue];
+    L [label="Limit", shape=box, style=filled, fillcolor=lightblue];
+
+    At1 [label="Attribute", shape=box, style=filled, fillcolor=lightblue];
+    Ff [label="Filter Function", shape=box, style=filled, fillcolor=lightblue];
+    V [label="Value", shape=box, style=filled, fillcolor=lightblue];
+
+    Af [label="Aggregation Function", shape=box, style=filled, fillcolor=lightblue];
+    At [label="Attribute", shape=box, style=filled, fillcolor=lightblue];
+
+
+
+    Person [label="Person", shape=cds, style=filled, fillcolor=darkturquoise];
+    Age [label="age", shape=cds, style=filled, fillcolor=darkturquoise];
+    LTE [label="LTE", shape=cds, style=filled, fillcolor=darkturquoise];
+    22 [label="22", shape=cds, style=filled, fillcolor=darkturquoise];
+    Collect [label="COLLECT", shape=cds, style=filled, fillcolor=darkturquoise];
+    name [label="name", shape=cds, style=filled, fillcolor=darkturquoise];
+
+    Q1 [label="MATCH (var1:Person) WHERE var1.age <= 22 RETURN collect(var1.name)", shape=cds, style=filled, fillcolor=aquamarine];
+    Q2 [label="(var1:Person) WHERE var1.age <= 22 RETURN collect(var1.name)", shape=cds, style=filled, fillcolor=aquamarine];
+    Q3 [label="(var1:Person) WHERE var1.age <= 22", shape=cds, style=filled, fillcolor=aquamarine];
+    Q4 [label="RETURN collect(var1.name)", shape=cds, style=filled, fillcolor=aquamarine];
+    Q5 [label="WHERE age <= 22", shape=cds, style=filled, fillcolor=aquamarine];
+    Q6 [label="collect(name)", shape=cds, style=filled, fillcolor=aquamarine];
+
+    name -> At
+    Collect -> Af
+    {Af At} -> Q6
+    Q6 -> A
+    {A O L} -> Q4
+    Q4 -> R
+
+    22 -> V
+    LTE -> Ff
+    Age -> At1
+    {At1 Ff V} -> Q5
+    Q5 -> F
+    Person -> T
+    {T F} -> Q3
+    Q3 -> E
+
+    {E R} -> Q2
+    Q2 -> S
+    S -> Q1
+
+
+    
+}

@@ -1,0 +1,17 @@
+digraph G {
+    splines="FALSE";
+
+    /* Entities */
+    A [label="get entities", shape=ellipse, style=filled, fillcolor=lightblue];
+    B [label="get properties", shape=ellipse, style=filled, fillcolor=lightblue];
+    C [label="get values", shape=ellipse, style=filled, fillcolor=lightblue];
+    F [label="make query", shape=ellipse, color=darkred style=filled, fillcolor=lightblue];
+    D [label="Graph Contractor", shape=component, style=filled, fillcolor=lightblue];
+    E [label="Knowledge Base", shape=tab,  style=filled, fillcolor=lightblue];
+    
+    
+    /* Relationships */
+    {A B C F} -> D
+    D -> E
+    E -> D
+}

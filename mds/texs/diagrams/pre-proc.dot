@@ -1,0 +1,14 @@
+digraph G {
+    splines="FALSE";
+
+    /* Entities */
+    A [label="query", shape=ellipse, style=filled, fillcolor=lightblue];
+    D [label="Pre-Processor", shape=component, style=filled, fillcolor=lightblue];
+    E [label="query with LABELS", shape=ellipse, style=filled, fillcolor=lightblue];
+    
+    
+    /* Relationships */
+    A -> D
+    D -> E
+
+}

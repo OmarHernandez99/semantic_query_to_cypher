@@ -1,0 +1,65 @@
+\chapter{Detalles de Implementación y Experimentos}\label{chapter:implementation}
+
+
+\section{Pre-Processor}
+
+La clase que implementa este m\'odulo es el \textbf{SentenceNormalizer}. No se usaron librer\'ias externas en su desarrollo. Consta de un m\'etodo p\'ublico \textsc{process} que recibe la consulta en str, y de m\'etodos privados \textsc{_correct_words} y \textsc{_change_db_words_for_labels} que la auxilian en este proceso.
+
+
+\section{Post-Processor}
+
+La clase que implementa este m\'odulo es el \textbf{ModelInterpreter}. Se us\'o como modelo de texto a texto un t5, por sus exelentes resultados demostrados en tareas de este tipo[]. Se emplean las librer\'ias \textsc{simplet5} y \textsc{os} para cargar el modelo. El entrenamiento de este se realiz\'o en en el sitio www.kaggle.com. 
+
+
+\section{Lenguaje Intermedio}
+
+El Lenguaje Intermedio est\'a compuesto por una gerarqu\'ia de clases que heredan de \textsc{AstNode}. Las librer\'ias que se usan son solo a modo de anotaci\'on como \textsc{typing}, \textsc{abc}, \textsc{dataclasses} y \textsc{enum}.\\
+
+
+\section{Parser}
+
+El parser lo implementa la clase \textsc{OpherParser}. S\'olo se us\'o la librer\'ia externa \textsc{more_itertools} para facilitar el manejo de iterables. Posee un m\'etodo p\'ublico \textsc{get_ast} que recibe la consulta en str y devuelve un \textsc{AstNode} que representa la consulta. El m\'etodo \textsc{get_ast} despliega la implementaci\'on de un patr\'on Visitor sobre el AST de Opher pas\'andole el rango de la consulta pertinente a cada nodo.\\ 
+
+Cada nodo tiene un m\'etodo que se encarga de crearlo, por lo que es f\'acil de extender o modificar si cambia la estructura del lenguaje. Adem\'as se hace un chequeo de tipos para diferenciar las cadenas de texto de otros tipos de datos.
+
+
+\section{Query-Maker}
+
+El papel de \textsc{Query-Maker} lo implementa la clase \textsc{ASTInterpreter}. S\'olo se usa la librer\'ia externa \textsc{more_itertools} para facilitar el trabajo con iterables. Consta con el m\'etodo p\'ublico \textsc{get_cypher_query} que recibe un \textsc{AstNode} y devuelve la consulta formal en str.\\
+
+Es tambi\'en una implementaci\'on de patr\'on Visitor que recorre el AST de Opher en preorden y va generando la porci\'on de consulta correspondiente a cada nodo y se llama en los nodos hijos para que generen su parte.\\
+
+\section{Graph-Contractor}
+\label{graphc}
+
+Este m\'odulo lo implementa la clase \textbf{Py2NeoOracle} apoy\'andose de la bibliotece \textsc{py2neo}. Se realizan consultas espec\'ificas en Cypher.\\
+
+Para pedir informaci\'on de las etiquetas: \\
+\verb|CALL db.labels()| \\
+
+Para pedir informaci\'on de los atributos de un tipo de dato \textit{label}: \\
+\verb|MATCH (p:{label}) WITH DISTINCT keys(p) as key_list|\\
+\verb|  UNWIND key_list as key RETURN DISTINCT key'|
+
+Para recolectar los algunos ejemplos de valores de propiedades:\\
+\verb|MATCH (p) WHERE p.{attr} IS NOT NULL RETURN DISTINCT p.{attr}|\\ 
+\verb|  as value LIMIT 20'|\\
+
+
+Luego se guardan las entidades, sus propiedades y algunas valores internamente para poder accder a ellas.
+
+
+
+\section{Data-Generation}
+
+
+
+\subsection{AST-Generator}
+\label{ast-g}
+        
+\subsection{Query-Generator}
+\label{query-g}
+
+\subsection{Word-Module}
+\label{word-m}
+

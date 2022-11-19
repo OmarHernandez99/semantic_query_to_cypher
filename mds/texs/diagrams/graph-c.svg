@@ -1,0 +1,82 @@
+<?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="508pt" height="188pt" viewBox="0.00 0.00 508.49 188.00">
+<g id="graph0" class="graph" transform="translate(4,184) scale(1)" data-name="G">
+
+<polygon fill="white" stroke="none" points="-4,4 -4,-184 504.49,-184 504.49,4 -4,4"/>
+<!-- A -->
+<g id="node1" class="node" pointer-events="visible" data-name="A">
+
+<ellipse fill="lightblue" stroke="black" cx="53.14" cy="-162" rx="53.28" ry="18"/>
+<text text-anchor="middle" x="53.14" y="-157.8" font-family="Times,serif" font-size="14.00">get entities</text>
+</g>
+<!-- D -->
+<g id="node5" class="node" pointer-events="visible" data-name="D">
+
+<polygon fill="lightblue" stroke="black" points="311.5,-108 196.78,-108 196.78,-104 192.78,-104 192.78,-100 196.78,-100 196.78,-80 192.78,-80 192.78,-76 196.78,-76 196.78,-72 311.5,-72 311.5,-108"/>
+<polyline fill="none" stroke="black" points="196.78,-104 200.78,-104 200.78,-100 196.78,-100"/>
+<polyline fill="none" stroke="black" points="196.78,-80 200.78,-80 200.78,-76 196.78,-76"/>
+<text text-anchor="middle" x="254.14" y="-85.8" font-family="Times,serif" font-size="14.00">Graph Contractor</text>
+</g>
+<!-- A&#45;&gt;D -->
+<g id="edge1" class="edge" data-name="A-&gt;D">
+
+<path fill="none" stroke="black" d="M89.07,-148.49C118.01,-138.41 159.33,-124.02 193.39,-112.16"/>
+<polygon fill="black" stroke="black" points="194.45,-115.49 202.74,-108.9 192.15,-108.88 194.45,-115.49"/>
+</g>
+<!-- B -->
+<g id="node2" class="node" pointer-events="visible" data-name="B">
+
+<ellipse fill="lightblue" stroke="black" cx="188.14" cy="-162" rx="63.72" ry="18"/>
+<text text-anchor="middle" x="188.14" y="-157.8" font-family="Times,serif" font-size="14.00">get properties</text>
+</g>
+<!-- B&#45;&gt;D -->
+<g id="edge2" class="edge" data-name="B-&gt;D">
+
+<path fill="none" stroke="black" d="M203.78,-144.41C211.6,-136.12 221.24,-125.89 229.99,-116.62"/>
+<polygon fill="black" stroke="black" points="232.34,-119.22 236.65,-109.55 227.24,-114.42 232.34,-119.22"/>
+</g>
+<!-- C -->
+<g id="node3" class="node" pointer-events="visible" data-name="C">
+
+<ellipse fill="lightblue" stroke="black" cx="320.14" cy="-162" rx="49.84" ry="18"/>
+<text text-anchor="middle" x="320.14" y="-157.8" font-family="Times,serif" font-size="14.00">get values</text>
+</g>
+<!-- C&#45;&gt;D -->
+<g id="edge3" class="edge" data-name="C-&gt;D">
+
+<path fill="none" stroke="black" d="M304.83,-144.76C296.9,-136.35 287.04,-125.89 278.12,-116.44"/>
+<polygon fill="black" stroke="black" points="280.73,-114.1 271.32,-109.23 275.64,-118.9 280.73,-114.1"/>
+</g>
+<!-- E -->
+<g id="node6" class="node" pointer-events="visible" data-name="E">
+
+<polygon fill="lightblue" stroke="black" points="309.89,-36 210.39,-36 210.39,-40 198.39,-40 198.39,0 309.89,0 309.89,-36"/>
+<polyline fill="none" stroke="rgb(0, 0, 0)" points="198.39,-36 210.39,-36"/>
+<text text-anchor="middle" x="254.14" y="-13.8" font-family="Times,serif" font-size="14.00">Knowledge Base</text>
+</g><g id="node4" class="node" pointer-events="visible" data-name="F" data-comment="E">
+
+<ellipse fill="rgb(173, 216, 230)" stroke="rgb(139, 0, 0)" cx="444.14" cy="-162" rx="56.2" ry="18"/>
+<text text-anchor="middle" x="444.14" y="-157.8" font-family="Times,serif" font-size="14.00">make query</text>
+</g>
+<!-- D&#45;&gt;E -->
+<g id="edge5" class="edge" data-name="D-&gt;E">
+
+<path fill="none" stroke="black" d="M248.22,-71.7C247.47,-64.41 247.23,-55.73 247.49,-47.54"/>
+<polygon fill="black" stroke="black" points="250.98,-47.82 248.15,-37.61 244,-47.36 250.98,-47.82"/>
+</g><g id="edge4" class="edge" data-name="F-&gt;D" data-comment="D-&gt;E">
+
+<path fill="none" stroke="black" d="M408.4,-147.83C381.38,-137.88 343.71,-124 312.36,-112.45"/>
+<polygon fill="black" stroke="black" points="313.58,-109.17 302.98,-108.99 311.16,-115.74 313.58,-109.17"/>
+</g>
+<!-- E&#45;&gt;D -->
+<!-- E&#45;&gt;D -->
+<!-- E&#45;&gt;D -->
+<g id="edge6" class="edge" data-name="E-&gt;D">
+
+<path fill="none" stroke="black" d="M260.03,-36.1C260.8,-43.37 261.05,-52.04 260.79,-60.24"/>
+<polygon fill="black" stroke="black" points="257.3,-59.98 260.15,-70.19 264.29,-60.43 257.3,-59.98"/>
+</g>
+
+
+</g>
+</svg>

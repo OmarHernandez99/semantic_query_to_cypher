@@ -1,0 +1,181 @@
+<?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="603pt" height="332pt" viewBox="0.00 0.00 603 332">
+<g id="graph0" class="graph" transform="translate(-6.5755767822265625,324.1543426513672) scale(1)" data-name="G">
+
+<polygon fill="white" stroke="none" points="-4,4 -4,-328 599,-328 599,4 -4,4"/>
+<!-- S -->
+<g id="node1" class="node" pointer-events="visible" data-name="S">
+
+<polygon fill="lightblue" stroke="black" points="179,-324 125,-324 125,-288 179,-288 179,-324"/>
+<text text-anchor="middle" x="152" y="-301.8" font-family="Times,serif" font-size="14.00">Select</text>
+</g>
+<!-- E -->
+<g id="node2" class="node" pointer-events="visible" data-name="E">
+
+<polygon fill="lightblue" stroke="black" points="129,-252 75,-252 75,-216 129,-216 129,-252"/>
+<text text-anchor="middle" x="102" y="-229.8" font-family="Times,serif" font-size="14.00">Entity</text>
+</g>
+<!-- S&#45;&gt;E -->
+<g id="edge1" class="edge" data-name="S-&gt;E">
+
+<path fill="none" stroke="black" d="M139.64,-287.7C133.95,-279.73 127.07,-270.1 120.76,-261.26"/>
+<polygon fill="black" stroke="black" points="123.76,-259.44 115.1,-253.34 118.06,-263.51 123.76,-259.44"/>
+</g>
+<!-- R -->
+<g id="node3" class="node" pointer-events="visible" data-name="R">
+
+<polygon fill="lightblue" stroke="black" points="315.1,-252 260.9,-252 260.9,-216 315.1,-216 315.1,-252"/>
+<text text-anchor="middle" x="288" y="-229.8" font-family="Times,serif" font-size="14.00">Return</text>
+</g>
+<!-- S&#45;&gt;R -->
+<g id="edge2" class="edge" data-name="S-&gt;R">
+
+<path fill="none" stroke="black" d="M179.19,-291C199.76,-280.42 228.24,-265.76 250.9,-254.1"/>
+<polygon fill="black" stroke="black" points="252.22,-257.35 259.51,-249.67 249.01,-251.13 252.22,-257.35"/>
+</g>
+<!-- T -->
+<g id="node4" class="node" pointer-events="visible" data-name="T">
+
+<polygon fill="lightblue" stroke="black" points="54,-180 0,-180 0,-144 54,-144 54,-180"/>
+<text text-anchor="middle" x="27" y="-157.8" font-family="Times,serif" font-size="14.00">Type</text>
+</g>
+<!-- E&#45;&gt;T -->
+<g id="edge3" class="edge" data-name="E-&gt;T">
+
+<path fill="none" stroke="black" d="M83.46,-215.7C74.54,-207.37 63.67,-197.22 53.86,-188.07"/>
+<polygon fill="black" stroke="black" points="56.39,-185.64 46.69,-181.38 51.61,-190.76 56.39,-185.64"/>
+</g>
+<!-- F -->
+<g id="node5" class="node" pointer-events="visible" data-name="F">
+
+<polygon fill="lightblue" stroke="black" points="129,-180 75,-180 75,-144 129,-144 129,-180"/>
+<text text-anchor="middle" x="102" y="-157.8" font-family="Times,serif" font-size="14.00">Filter</text>
+</g>
+<!-- E&#45;&gt;F -->
+<g id="edge4" class="edge" data-name="E-&gt;F">
+
+<path fill="none" stroke="black" d="M102,-215.7C102,-208.41 102,-199.73 102,-191.54"/>
+<polygon fill="black" stroke="black" points="105.5,-191.62 102,-181.62 98.5,-191.62 105.5,-191.62"/>
+</g>
+<!-- A -->
+<g id="node6" class="node" pointer-events="visible" data-name="A">
+
+<polygon fill="lightblue" stroke="black" points="374.98,-180 289.02,-180 289.02,-144 374.98,-144 374.98,-180"/>
+<text text-anchor="middle" x="332" y="-157.8" font-family="Times,serif" font-size="14.00">Aggregation</text>
+</g>
+<!-- R&#45;&gt;A -->
+<g id="edge5" class="edge" data-name="R-&gt;A">
+
+<path fill="none" stroke="black" d="M298.88,-215.7C303.78,-207.9 309.68,-198.51 315.14,-189.83"/>
+<polygon fill="black" stroke="black" points="318.08,-191.71 320.44,-181.39 312.16,-187.99 318.08,-191.71"/>
+</g>
+<!-- O -->
+<g id="node7" class="node" pointer-events="visible" data-name="O">
+
+<polygon fill="lightblue" stroke="black" points="271,-180 217,-180 217,-144 271,-144 271,-180"/>
+<text text-anchor="middle" x="244" y="-157.8" font-family="Times,serif" font-size="14.00">Order</text>
+</g>
+<!-- R&#45;&gt;O -->
+<g id="edge6" class="edge" data-name="R-&gt;O">
+
+<path fill="none" stroke="black" d="M277.12,-215.7C272.22,-207.9 266.32,-198.51 260.86,-189.83"/>
+<polygon fill="black" stroke="black" points="263.84,-187.99 255.56,-181.39 257.92,-191.71 263.84,-187.99"/>
+</g>
+<!-- L -->
+<g id="node8" class="node" pointer-events="visible" data-name="L">
+
+<polygon fill="lightblue" stroke="black" points="595,-108 541,-108 541,-72 595,-72 595,-108"/>
+<text text-anchor="middle" x="568" y="-85.8" font-family="Times,serif" font-size="14.00">Limit</text>
+</g>
+<!-- R&#45;&gt;L -->
+<g id="edge7" class="edge" data-name="R-&gt;L">
+
+<path fill="none" stroke="black" d="M315.36,-219.13C365.75,-193.57 473.3,-139.02 530.47,-110.03"/>
+<polygon fill="black" stroke="black" points="531.85,-113.26 539.18,-105.62 528.68,-107.02 531.85,-113.26"/>
+</g>
+<!-- At -->
+<g id="node9" class="node" pointer-events="visible" data-name="At">
+
+<polygon fill="lightblue" stroke="black" points="222.05,-108 155.95,-108 155.95,-72 222.05,-72 222.05,-108"/>
+<text text-anchor="middle" x="189" y="-85.8" font-family="Times,serif" font-size="14.00">Attribute</text>
+</g>
+<!-- F&#45;&gt;At -->
+<g id="edge12" class="edge" data-name="F-&gt;At">
+
+<path fill="none" stroke="black" d="M123.51,-143.7C134.07,-135.2 146.98,-124.81 158.53,-115.51"/>
+<polygon fill="black" stroke="black" points="160.66,-118.29 166.26,-109.3 156.28,-112.84 160.66,-118.29"/>
+</g><g id="edge14" class="edge" data-name="T-&gt;V" data-comment="F-&gt;At">
+
+<path fill="none" stroke="black" d="M21.99,-143.73C17.48,-124.3 13.65,-92.75 29,-72 56.99,-34.15 112.97,-22.94 150.72,-19.84"/>
+<polygon fill="black" stroke="black" points="150.54,-23.36 160.29,-19.21 150.09,-16.37 150.54,-23.36"/>
+</g>
+<!-- Ff -->
+<g id="node12" class="node" pointer-events="visible" data-name="Ff">
+
+<polygon fill="lightblue" stroke="black" points="137.61,-108 38.39,-108 38.39,-72 137.61,-72 137.61,-108"/>
+<text text-anchor="middle" x="88" y="-85.8" font-family="Times,serif" font-size="14.00">Filter Function</text>
+</g>
+<!-- F&#45;&gt;Ff -->
+<g id="edge13" class="edge" data-name="F-&gt;Ff">
+
+<path fill="none" stroke="black" d="M98.54,-143.7C97.06,-136.32 95.3,-127.52 93.65,-119.25"/>
+<polygon fill="black" stroke="black" points="97.11,-118.71 91.72,-109.59 90.25,-120.08 97.11,-118.71"/>
+</g>
+<!-- A&#45;&gt;At -->
+<g id="edge8" class="edge" data-name="A-&gt;At">
+
+<path fill="none" stroke="black" d="M296.28,-143.52C276.98,-134.07 252.99,-122.32 232.59,-112.34"/>
+<polygon fill="black" stroke="black" points="234.18,-109.22 223.66,-107.97 231.1,-115.51 234.18,-109.22"/>
+</g>
+<!-- Af -->
+<g id="node10" class="node" pointer-events="visible" data-name="Af">
+
+<polygon fill="lightblue" stroke="black" points="522.76,-108 383.24,-108 383.24,-72 522.76,-72 522.76,-108"/>
+<text text-anchor="middle" x="453" y="-85.8" font-family="Times,serif" font-size="14.00">Aggregation Function</text>
+</g>
+<!-- A&#45;&gt;Af -->
+<g id="edge9" class="edge" data-name="A-&gt;Af">
+
+<path fill="none" stroke="black" d="M362.22,-143.52C377.79,-134.51 396.95,-123.42 413.66,-113.76"/>
+<polygon fill="black" stroke="black" points="414.95,-117.06 421.85,-109.02 411.45,-111 414.95,-117.06"/>
+</g>
+<!-- O&#45;&gt;At -->
+<g id="edge10" class="edge" data-name="O-&gt;At">
+
+<path fill="none" stroke="black" d="M230.4,-143.7C224.08,-135.64 216.42,-125.89 209.41,-116.98"/>
+<polygon fill="black" stroke="black" points="212.3,-115 203.37,-109.29 206.8,-119.32 212.3,-115"/>
+</g>
+<!-- P -->
+<g id="node11" class="node" pointer-events="visible" data-name="P">
+
+<polygon fill="lightblue" stroke="black" points="365.36,-108 240.64,-108 240.64,-72 365.36,-72 365.36,-108"/>
+<text text-anchor="middle" x="303" y="-85.8" font-family="Times,serif" font-size="14.00">Priority[Asc, Desc]</text>
+</g>
+<!-- O&#45;&gt;P -->
+<!-- O&#45;&gt;P -->
+<g id="edge11" class="edge" data-name="O-&gt;P">
+
+<path fill="none" stroke="black" d="M258.58,-143.7C265.44,-135.56 273.76,-125.69 281.34,-116.7"/>
+<polygon fill="black" stroke="black" points="283.84,-119.16 287.61,-109.26 278.49,-114.65 283.84,-119.16"/>
+</g>
+<!-- V -->
+<g id="node13" class="node" pointer-events="visible" data-name="V">
+
+<polygon fill="lightblue" stroke="black" points="216,-36 162,-36 162,0 216,0 216,-36"/>
+<text text-anchor="middle" x="189" y="-13.8" font-family="Times,serif" font-size="14.00">Value</text>
+</g>
+
+<!-- L&#45;&gt;V -->
+<g id="edge15" class="edge" data-name="L-&gt;V">
+
+<path fill="none" stroke="black" d="M540.81,-75.17C537.88,-73.98 534.91,-72.89 532,-72 424.61,-39.1 291.76,-26.01 227.46,-21.33"/>
+<polygon fill="black" stroke="black" points="228,-17.86 217.78,-20.65 227.52,-24.84 228,-17.86"/>
+</g>
+<!-- At&#45;&gt;V -->
+<g id="edge16" class="edge" data-name="At-&gt;V">
+
+<path fill="none" stroke="black" d="M189,-71.7C189,-64.41 189,-55.73 189,-47.54"/>
+<polygon fill="black" stroke="black" points="192.5,-47.62 189,-37.62 185.5,-47.62 192.5,-47.62"/>
+</g>
+</g>
+</svg>

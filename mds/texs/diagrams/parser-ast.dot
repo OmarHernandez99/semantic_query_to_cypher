@@ -1,0 +1,60 @@
+digraph G {
+
+    /* Entities */
+    S [label="Select", shape=box, style=filled, fillcolor=lightblue];
+
+    E [label="Entity", shape=box, style=filled, fillcolor=lightblue];
+    R [label="Return", shape=box, style=filled, fillcolor=lightblue];
+
+    T [label="Type", shape=box style=filled, fillcolor=lightblue];
+    F [label="Filter", shape=box, style=filled, fillcolor=lightblue];
+
+    A [label="Aggregation", shape=box, style=filled, fillcolor=lightblue];
+    O [label="Order", shape=box, style=filled, fillcolor=lightblue];
+    L [label="Limit", shape=box, style=filled, fillcolor=lightblue];
+
+    At1 [label="Attribute", shape=box, style=filled, fillcolor=lightblue];
+    Ff [label="Filter Function", shape=box, style=filled, fillcolor=lightblue];
+    V [label="Value", shape=box, style=filled, fillcolor=lightblue];
+
+    Af [label="Aggregation Function", shape=box, style=filled, fillcolor=lightblue];
+    At [label="Attribute", shape=box, style=filled, fillcolor=lightblue];
+
+
+    Q1 [label="SELECT ENTITY Person WHERE age LTE 22 RETURN AGGREGATION COLLECT name", shape=cds, style=filled, fillcolor=darkturquoise];
+    Q2 [label="ENTITY Person WHERE age LTE 22 RETURN AGGREGATION COLLECT name", shape=cds, style=filled, fillcolor=darkturquoise];
+    Q3 [label="Person WHERE age LTE 22 RETURN AGGREGATION COLLECT name", shape=cds, style=filled, fillcolor=darkturquoise];
+    Q4 [label="AGGREGATION COLLECT name", shape=cds, style=filled, fillcolor=darkturquoise];
+    Q5 [label="age LTE 22 RETURN AGGREGATION COLLECT name", shape=cds, style=filled, fillcolor=darkturquoise];
+    Q6 [label="COLLECT name", shape=cds, style=filled, fillcolor=darkturquoise];
+
+    Person [label="Person", shape=cds, style=filled, fillcolor=darkturquoise];
+    Age [label="age", shape=cds, style=filled, fillcolor=darkturquoise];
+    LTE [label="LTE", shape=cds, style=filled, fillcolor=darkturquoise];
+    22 [label="22", shape=cds, style=filled, fillcolor=darkturquoise];
+    Collect [label="COLLECT", shape=cds, style=filled, fillcolor=darkturquoise];
+    name [label="name", shape=cds, style=filled, fillcolor=darkturquoise];
+
+
+
+    /* Relationships */
+    Q1 -> S
+    S -> Q2
+    Q2 -> {E R}
+
+    E -> Q3
+    Q3 -> {T F}
+    T -> Person
+    F -> Q5
+    Q5 -> {At1 Ff V}
+    At1 -> Age
+    Ff -> LTE
+    V -> 22
+
+    R -> Q4
+    Q4 -> {A O L}
+    A -> Q6
+    Q6 -> {Af At}
+    Af -> Collect
+    At -> name
+}

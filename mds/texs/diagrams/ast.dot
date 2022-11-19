@@ -1,0 +1,33 @@
+digraph G {
+
+    /* Entities */
+    S [label="Select", shape=box, style=filled, fillcolor=lightblue];
+
+    E [label="Entity", shape=box, style=filled, fillcolor=lightblue];
+    R [label="Return", shape=box, style=filled, fillcolor=lightblue];
+
+    T [label="Type", shape=box style=filled, fillcolor=lightblue];
+    F [label="Filter", shape=box, style=filled, fillcolor=lightblue];
+
+    A [label="Aggregation", shape=box, style=filled, fillcolor=lightblue];
+    O [label="Order", shape=box, style=filled, fillcolor=lightblue];
+    L [label="Limit", shape=box, style=filled, fillcolor=lightblue];
+
+    At [label="Attribute", shape=box, style=filled, fillcolor=lightblue];
+    Af [label="Aggregation Function", shape=box, style=filled, fillcolor=lightblue];
+
+    P [label="Priority[Asc, Desc]", shape=box, style=filled, fillcolor=lightblue];
+    Ff [label="Filter Function", shape=box, style=filled, fillcolor=lightblue];
+
+    V [label="Value", shape=box, style=filled, fillcolor=lightblue];
+    
+    
+    /* Relationships */
+    S -> {E R}
+    E -> {T F}
+    R -> {A O L}
+    A -> {At Af}
+    O -> {At P}
+    F -> {At Ff}
+    {T At L} -> V
+}

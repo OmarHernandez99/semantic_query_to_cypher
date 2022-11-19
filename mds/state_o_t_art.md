@@ -1,0 +1,44 @@
+# Estado del Arte
+
+Con respecto a la recuperación de información de una base de conocimiento, mediante consultas hechas en lenguaje natural se han hecho varias investigaciones científicas. En su gran mayoría siguen el siguiente patrón:
+
+Data => NLQuery => Pre-Processing => Post-Processing => FormalQuery => Results
+
+Se busca o crea un conjunto de datos(benchmark) en los que entrenar y probar el sistema. 
+
+En el primer caso los más tenidos en cuenta son ( estos ..............).
+
+ En el segundo, se suele usar las propias bases de conocimiento objeto de estudio para crear la data entrenante, una de las técnicas más empleadas aquí es *Random Walk*[], en la que se hace un recorrido aleatorio sobre un subconjunto de las entidades y relaciones de la base de conocimiento, y se elaboran consultas artificiales que respondan a dichas entidades y relaciones.
+
+De esta forma se pueden evaluar con precisión los resultados obtenidos porque se elaboran las respuestas de antemano.
+
+Luego de tener la consulta de la que se quiere la respuesta, se suele hacer un Pre-Procesamiento.
+
+ La mayor parte de los artículos realizan un análisis léxico y morfológico, en el que entran la tokenización, la lematización y el tagueo como parte de la oración(POS-tag), algunos además remueven *stop words* y ambiguedades.
+
+ Otro grupo de investigaciones optan en esta etapa por usar paráfrasis, en las que llevan la consulta a una *representación canonica* o, al menos, a una con palabras e ideas más claras para el sistema.
+
+  Usualmente se hace esta *traducción* a base de diccionarios especializados.
+
+  Otros ejemplos de pre-procesamiento, aunque menos comunes, lo son el codificado de la consulta directo a embbeding y la transformación de la consulta a un grafo que la representa.
+
+En el Post-Procesamiento hay variantes principales igualmente en las investigaciones realizadas.
+
+  La mayor cantidad de investigadores hace un Parsing Semántico; en el que hacen mapeo por tipos, usan ontologías del dominio y bases de conocimiento externas con las que hacen mapeo, utilizan reglas semánticas y de concepto.
+
+  Otro grupo de investigaciones emplea un Análisis semantico basado en modelos, se destacan el empleo de BART[], Decoder Autoregresivos[] y Agregaciones Conscientes de la Estructura(en los casos que usan representaciones de grafos).
+
+  Con menos casos, también hay vertientes que parsean a un Lenguaje Intermedio, como es el caso de GraphQIR[].
+
+Por último, en la etapa de Construcción de la consulta hay 3 principales vías por las que se decanta la bibliografía: La primera es en la que la construcción se realiza "Manual", se le da formato a las partes identificadas como *where*, *select*, *cláusulas*, se mapean los atributos que coincidan con tablas, etc.
+
+ Otra vía de investigación es centrada en modelos nuevamente, se utilizan Decoders, en menor medida Redes Neuronales Recurrentes(RNN) y, en mayor, Transformers(RAT y Multiheaded Attention).
+ 
+  Por último se usa también en la construccion de la consulta formalizada, un Compilador, especialmente en los casos en los que se usó con anterioridad un lenguaje intermedio entre el natural y el formal de consulta, esta última ha probado ser una de las más fructíferas vias de ataque en esta etapa junto a los Transformers.
+
+
+
+ 
+
+
+

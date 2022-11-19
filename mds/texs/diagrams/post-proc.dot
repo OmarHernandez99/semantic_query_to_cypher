@@ -1,0 +1,14 @@
+digraph G {
+    splines="FALSE";
+
+    /* Entities */
+    A [label="Consulta con Etiquetas", shape=ellipse, style=filled, fillcolor=lightblue];
+    D [label="Post-Processor", shape=component, style=filled, fillcolor=lightblue];
+    E [label="Consulta en Lenguaje Intermedio", shape=ellipse, style=filled, fillcolor=lightblue];
+    
+    
+    /* Relationships */
+    A -> D
+    D -> E
+
+}

@@ -1,0 +1,127 @@
+\chapter{Propuesta}\label{chapter:proposal}
+
+\section{El Problema}
+\label{problem}
+Como se menciona en el Capitulo \nameref{sota} el problema de consultar una base de conocimiento es de primera necesidad en el mundo actual. En este cap\'itulo proponemos una arquitectura para atacar esta dificultad, al tiempo que se hace disponible para el usuario no sabido de lenguajes formales o programacion de ningun tipo, acortando, a su vez, el tiempo de espera que transcurre entre que se necesita la informaci\'on y se provee.\\
+
+Respondiendo a la escaza cantidad de articulos cient\'ficos que soportan consultas en bases de conocimiento con estructura de grafos se elije Cypher como lenguaje de salida del modelo. Usar en el proceso conocimientos de Compilaci\'on se cree pertinente tambi\'en debido a una carencia de investigaci\'on con esta herramienta.\\
+
+Adem\'as, se necesita que el sistema sea modular, para que sea posible el cambio de componentes y la adici\'on de nuevos, sin que esto afecte el funcionamiento del resto sistema. Por ejemplo, poder cambiar y agregar nuevos lenguajes formales a los cuales se transpila con facilidad ser\'ia algo de gran inter\'es, as\'i como soportar nuevos lenguajes de entrada, como el Espa\~nol.
+Tambi\'en se necesita un sistema que no est\'e optimizado solamente para las bases de conocimiento sobre las cuales se entren\'o, sino que con esa experiencia alcanze una buena capacidad de generalizaci\'on que pueda ser aplicado a cualquier base de conocimiento que se le presente. 
+
+
+\section{Resoluci\'on Directa, Primer Acercamiento}
+\label{direct}
+El primer acercamiento que se tuvo fue el de resolver directamente el problema de transpilar la consulta de lenguaje natural a Cypher. V\'ease las v\'ias por las cuales se puede atacar.
+
+\subsection{Ad-Hoc}
+Una v\'ia por la cual se pudiera atacar el problema ser\'ia la Ad-Hoc. Creando un conjunto de reglas intuitivas para transformar el lenguaje natural al lenguaje objetivo.\\
+
+Tomando una expresi\'on en lenguaje natural como una sucesi\'on de expresiones:
+$$ e_1, e_2, ..., e_n$$
+Al igual que una expresion en el lenguaje objetivo:
+$$ o_1, o_2, ..., o_n$$
+
+Ser\'ia, a modo de resumen, crear una funci\'on no inyectiva:
+
+$$f:LN\rightarrow LO$$
+
+tal que\\
+
+$$f(e_i) = o_k$$
+
+Donde LN es el dominio de las expresiones en lenguaje natural, y LO el dominio de las expresiones en el lenguaje objetivo. No inyectiva porque en el conjunto de partida existir\'an muchas expresiones distintas que contengan el mismo significado sem\'antico, y por tanto, representen lo mismo en el lenguaje objetivo.\\
+
+De forma que dado una expresion $E$:
+$$ E = e_1, e_2, ..., e_k $$
+
+El resultado de la transpilaci\'on ser\'ia:
+$$ f(E) = o_i, o_{i+1}, ..., o_{i+k} $$
+
+Esta soluci\'on tiene varios elementos que la hacen inviable:\\
+\begin{itemize}
+    \item Las reglas ser\'ian demasiadas, debido a la riqueza del lenguaje natural, se necesitar\'ian probablemente meses de trabajo elabor\'andolas y luego delimitando el orden correcto en el cual se deber\'ian evaluar.
+
+    \item No ser\'ia nada escalable o modular, al querer preguntar en otro idioma, habr\'ia que rehacer probablemente la mayor cantidad del trabajo ya que cada idioma tiene reglas gramaticales y expresiones distintas.
+
+    \item El lenguaje de salida tambi\'en estuviera atado a la implementaci\'on inicial, lo que har\'ia necesario crear una funci\'on nueva que tuviera el conjunto de expresiones del lenguaje de salida como nuevo conjunto de llegada, con el correspondiente costo de tiempo y recursos.
+\end{itemize}   
+
+Como se puede ver, esta v\'ia es poco factible y nada escalable. Veamos la v\'ia del modelo de texto a texto.\\
+
+\subsection*{Modelo Texto a Texto, de principio a fin}
+La segunda v\'ia que se intent\'o fue la de crear un modelo de texto a texto, que permitiera la traducci\'on de una expresi\'on en lenguaje natural a una expresi\'on en Cypher. Esto presenta varios problemas.\\
+
+El primero es que el lenguaje objetivo, Cypher, soporta m\'as operaciones de las que se desea soportar en el lenguaje de entrada. Por ejemplo, Cypher soporta operaciones de conjuntos, como la intersecci\'on, la uni\'on, etc., tambi\'en operaciones de entrada de datos y actualizaci\'on. Pero no se desea que el usuario sea capaz de realizar estas operaciones. Lo que resulta en que el modelo de aprendizaje de m\'aquina estar\'ia transpilando sobre un lenguaje que no es el objetivo.\\
+
+Otro inconveniente de que al modelo de texto a texto se le encargue la transpilaci\'on de principio a fin es que los lenguajes objetivos sobre los que se trabaja, los lenguajes de consulta formales, tienen restricciones de sintaxis que no se encuentran en el lenguaje de entrada. Por ejemplo, en Cypher no se puede tener una variable que empiece con un n\'umero. Adem\'as los lenguajes de consulta formales como Cypher y SQL son lenguajes no regulares\ref{}, que requieren par\'entesis balanceados y en ocasiones otras estructuras, como flechas y llaves, que los modelos no son buenos entendiendo.\\
+
+Los lenguajes de consulta formal tambi\'en a menudo soportan y usan en el cuerpo de la consulta variables que fueron definidas con anterioridad, lo que requerir\'ia que los modelos fueran conscientes del contexto, dificultad no menor que las anteriores. Por \'ultimo, en los lenguajes de consulta formales se puede expresar lo mismo sem\'anticamente, y obtener igual resultados, con consultas distintas, lo que a\~niade otra capa de dificultad para un modelo de texto a texto de principio a fin.\\
+
+
+\section{Resoluci\'on por M\'odulos}
+Como se puede ver en la secci\'on \nameref{direct}, las dos v\'ias planteadas no parecen llevar a ningun lado. A continuaci\'on se realizar\'a una soluci\'on por m\'odulos, donde cada objetivo planteado en \nameref{problem} caer\'a en la responsabilidad de uno de los m\'odulos.
+
+Uno de los objetivos que queremos es en \'ultima instancia consultar la base de conocimiento, y se sabe que se requiere hacerlo con un lenguaje de consulta formal para esto, sin que dependa el resto de la arquitectura sobre que decisi\'on de lenguaje se tome. Para esto Creamos el m\'odulo \nameref{graphc}.\\
+
+Se encarga\'a de configurar la base de conocimiento a consultar, que en el marco de esta investigaci\'on debe tener forma de grafo. Adem\'as interactuar\'a con ella y extraer\'a informaci\'on. Ser\'a responsable tambi\'en de proveer detalles sobre sus entidades, propiedades, asi como algunos valores de las propiedades.\\
+
+En esta etapa se tiene quien interact\'ue con la base de conocimiento, se necesita entonces un m\'odulo que elabore la consulta en lenguaje formal que va a hacer el \nameref{graphc} a la base de datos, para esto creamos el m\'odulo \nameref{query-m}. A su vez, como esta responsabilidad recae en este m\'odulo, se puede manejar internamente un cambio de lenguaje objetivo a, por ejemplo, SQL.\\
+
+\subsection{Foto de Query M}
+Query Representation ---> Query maker ---> Formal Query Representation\\
+
+Como se quiere poder desacoplar la representaci\'on de la consulta del lenguaje objetivo, se necesita crear una representaci\'on sem\'antica de ella. Para esto se crea un \nameref{inter-lang}, con una arquitectura centrada en simplicidad y extensibilidad. Que soporte las consultas sobre tipos de datos, el aplicar filtros sobre alguna propiedad, y recuperar ya sea los nodos que cumplen con esto y alguna agregacion sobre estos. Debe admitir tambi\'en ordenar los datos y limitarlos a una cantidad esp\'ecifica. En este Lenguaje solo debe haber una manera de expresar una consulta y no debe existir ambiguedad.\\
+\subsection{Foto de AST}
+
+
+
+
+Ocurre entonces la necesidad de llevar una consulta a una representaci\'on en forma de AST del \nameref{inter-lang}. Para esto se asume que tenemos una representaci\'on en texto, que respeta un pre-orden entre los nodos. Se crea as\'i el m\'odulo \nameref{parser}.
+
+
+
+Ahora se necesita cerrar el espacio entre la consulta inicial y una representaci\'on en texto del \nameref{inter-lang}. Se pudiera suplir este vac\'io con un modelo texto a texto, pero se crey\'o mejor opci\'on hacer un preprocesamiento de la consulta. Se crean as\'i dos m\'odulos:  \nameref{pre-proc} y \nameref{post-proc}.\\
+
+El primero lidia con palabras mal escritas y substituye los vocablos que son entidades y atributos de la base de conocimiento por etiquetas prefijadas. El segundo se encarga de transpilar la consulta preprocesada a la representaci\'on en \nameref{inter-lang}, finalmente, con el motor texto a texto.\\
+
+
+\section{Recorrido de una consulta}
+\label{consulta}
+Veamos los estados por los que pasar\'ia una consulta al pasar por el pipeline de m\'odulos. La consulta ser\'a:\\
+
+\verb|get me the list of names of the prsons with age up to 22|\\
+
+Fij\'emonos en sus caracter\'isticas:\\
+\begin{itemize}
+    \item Tiene la palabra mal escrita ``prsons'' refiriendose a ``persons''.
+    \item Los vocablos ``names'' y ''persons'' estan en plural, contrario a como se encuentra en la base de conocimiento donde existen el tipo de dato ``Person'' y su propiedad ``name''.
+    \item Tiene un filtro implicito de entidades que cumplan con el tipo ``Person''.
+    \item Consta de 2 atributos: ``name'' y ``age''.
+    \item Tiene el filtro ``menor o igual'' aplicado sobre ``age'' y 22.
+    \item Induce con la expresi\'on ``the list of'' a crear una agregacion de tipo ``collect'' sobre los nombres para returnar
+\end{itemize}
+
+Al pasar por el \nameref{pre-proc} se corrige la palabra ``prsons'', y luego se sustituyen ``persons'', ``names'' y ``age'' por las etiquetas ``\verb|LABEL_2|'', ``\verb|ATTRIBUTE_4|'' y ``\verb|ATTRIBUTE_8|''\\
+
+\verb|get me the list of ATTRIBUTE_4 of the LABEL_2 with ATTRIBUTE_8 bigger than 22|\\
+
+Luego pasa por el \nameref{post-proc} en el cual el modelo texto a texto la transforma a la representaci\'on en lenguaje intermedio y elimina las etiquetas ``LABEL'', ``ATTRIBUTE'' y recupera los vocablos a los que hacen referencia en la base de conocimiento: ``Person'', ``age'' y ``name''.\\
+
+\verb|SELECT ENTITY Person WHERE age LTE 22 RETURN COLLECT name|\\
+
+A continuaci\'on el m\'odulo \nameref{parser} transforma la consulta en \nameref{inter-lang} a su representaci\'on en AST. Reconoce los filtros por tipo de entidad y el de ``menor o igual'', al igual que la agregaci\'on ``collect'' a returnar.\\
+Select - Entity - Type: Person\\
+                - Filter: age <= 22\\
+        - Return - Aggregation: Collect name\\
+        
+
+Luego el m\'odulo \nameref{query-m} hace un recorrido por el AST de la consulta en preorden y produce la siguiente consulta en Cypher:\\
+\verb|MATCH (var1:Person) WHERE var1.age <= 22 RETURN collect(var1.name)|\\
+
+Esta consulta pasa al \nameref{graph-c} para enviarsela a la base de conocimiento. Finalmente la respuesta obtenida se devuelve al usuario en forma de lista:\\
+
+['Jose', 'Pepe', 'Alfredo']
+
+
+

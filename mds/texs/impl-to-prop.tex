@@ -1,0 +1,276 @@
+\chapter{Detalles de Implementación y Experimentos}\label{chapter:implementation}
+
+
+\section{Pre-Processor}
+\label{pre-proc}
+Este m\'odulo es el primero en el pipeline del sistema. Su tarea es preprocesar la consulta. Se encarga de corregir palabras mal escritas y añadir etiquetas a vocablos encontrados en la base de conocimiento.\\ 
+
+\begin{figure}[htbp]
+  \centering
+  \includesvg{pre-proc.svg}
+  \caption{svg image}
+\end{figure}
+
+Se crea para facilitarle el trabajo al pr\'oximo en el \textit{pipeline}. Permite que el \nameref{post-proc} se pueda enfocar solamente en el vocabulario alrededor de las palabras clave(entidades y atributos) y as\'i logra percibir mejor la intención del usuario.\\
+
+Adem\'as, esto ayuda sobre todo a que el sistema generalice mejor. De esta forma se hace que no sea necesario entrenar el modelo de aprendizaje para cada grafo de conocimiento distinto, ya que todas las consultas lucen semejantes una vez etiquetadas, las \'unicas variaciones son a menudo los valores objetivo a buscar, que s\'i dependen de la instancia de la base de datos.\\
+
+Por ejemplo, en la consulta que ve\'iamos en \nameref{consulta}:\\
+\verb|get me the list of names of the prsons with age up to 22|\\
+
+Con ayuda del \nameref{graph-c} se sabe que las palabras clave son:
+\verb|Entity: Person|\\
+\verb|Properties: name, age|\\
+
+
+Se hace primero una correción de palabras mal escritas o con ligeros errores. Para esto se debe llevar primero a su lexema, y, usando distancia Levenshtein[] 1 se modifica de ser necesario. Como se observa, la palabra ``prsons'' se debe corregir a ``persons''.  Por lo que se obtiene: \\
+
+\verb|get me the list of names of the persons with age up to 22|\\
+
+Luego se reemplazan las palabras clave por sus respectivas etiquetas siguiendo el siguiente protocolo:\\
+
+Se usan las etiquetas: ``LABEL'' y ``ATTRIBUTE'' en sustitución de las entitades y atributos que se mencionan en la consulta respectivamente. Se introduce un sufijo ``\verb|_i|'' con el número correspondiente a la etiqueta:\\
+
+Siguiendo con el ejemplo:\\
+\verb|get me the list of names of the persons with age up to 22|\\
+\\
+se transforma en:\\
+\\
+\verb|get me the list of ATTRIBUTE_1 of the LABEL_1 with ATTRIBUTE_2 up to 22|
+\\
+
+Posteriormente durante los experimentos se advierte que el siguiente m\'odulo estaba mapeando al lenguaje objetivo con ayuda de estos sufijos, que no es lo que se desea. Por lo que se decide agregar un ruido aleatorio en el sufijo:\\
+
+\verb|get me the list of ATTRIBUTE_4 of the LABEL_2 with ATTRIBUTE_8 up to 22|\\
+
+
+
+\section{Post-Processor}
+\label{post-proc}
+
+
+Este m\'odulo es el siguiente en el pipeline. Es el responsable de transformar la consulta preprocesada en una representaci\'on en texto del \nameref{inter-larg}. Es de las piedras angulares del sistema ya que no hay demasiadas alternativas para atacar el problema en este punto.
+
+\begin{figure}[htbp]
+  \centering
+  \includesvg{post-proc.svg}
+  \caption{svg image}
+\end{figure}
+
+En el post-procesamiento ocurren 2 tareas principalmente:
+
+\begin{itemize}
+    \item Se transpila a un \nameref{inter-lang} diseñado para este propósito, con un modelo de aprendizaje texto a texto.
+    
+    \item Se le eliminan las etiquetas a la consulta.
+\end{itemize}
+
+Se utiliza un modelo texto a texto porque la entrada del problema, la consulta en lenguaje natural, es texto. La salida, a su vez, debia ser, bien un AST o bien un texto parseable en un AST. Se opt\'o por que la salida fuera texto.\\
+
+Si se quisiera optar por la v\'ia del AST, como un modelo no puede devolver una instancia directamente, debería entonces devolver una codificación de un AST. Para esto, uno de los problemas que saltan a la vista es que tiene que ser capaz de resolver el problema de par\'entesis balanceados, en el que los modelos de aprendizaje de m\'aquinas no son especialmente buenos[].\\
+
+Otra alternativa era tener varios modelos, uno para cada decisi\'on que fuera necesario tomar construyendo el AST. No se escogi\'o porque iba a resultar en varias instancias de modelos por cada nivel del AST que representaba al \nameref{inter-lang}. Esto se traduce en mucha dependencia entre el lenguaje y los modelos de aprendizaje.\\
+
+Por lo anterior, unido al reciente avance de modelos pre-entrenados con buenos resultados en problemas de cadenas de texto[], se tom\'o la salida a texto. Además se cree que de esta forma el sistema tiene m\'as versatilidad ante futuros cambios, ya que ante uno, lo que habr\'ia que hacer fuera generar nueva data, y entrenar un solo modelo de nuevo.\\
+
+Esto de hecho se hizo durante el proceso de implementaci\'on ya que con el modelo ya entrenado, se añadio al lenguaje la posibilidad de topar la cantidad de respuestas(nodo LIMIT). Se gener\'o el nuevo conjunto de datos entrenantes y se volvi\'o a optimizar el modelo para el nuevo conjunto, sin necesidad de cambiar la estructura del resto de los m\'odulos o siquiera del propio \nameref{post-proc}.\\
+
+Veamos que ocurre con la consulta entregada por el \nameref{pre-proc}:
+\verb|get me the list of ATTRIBUTE_4 of the LABEL_2 with ATTRIBUTE_8 up to 22|\\
+
+Se pasa por el modelo texto a texto:\\
+\verb|SELECT ENTITY LABEL_2 WHERE ATTRIBUTE_8 LTE 22 RETURN COLLECT ATTRIBUTE_4|\\
+
+Como vemos, el modelo fue capaz de mapear ``the list of'' a la agregaci\'on ``COLLECT'' y ``up to'' al filtro ``LTE(Less than or equeal to)''. As\'i como ubicar correctamente el la entidad en su lugar, y diferenciar el atributo que le corresponde a la agregaci\'on y el que le corresponde al filtro de entidad.
+
+Luego se recuperan las entidades y atributos encubiertos por etiquetas:\\
+\verb|SELECT ENTITY Person WHERE age LTE 22 RETURN COLLECT name|\\
+
+
+
+\section{Lenguaje Intermedio}
+\label{inter-lang}
+Este m\'odulo se cre\'o con el objetivo de hacer de puente entre el \nameref{post-proc} y el \nameref{parser}. Debido a las desventajas que tiene pedirle a un modelo de aprendizaje de m\'aquinas que transpile a Cypher o a AST directamente.\\
+
+Para este cometido se crea un lenguaje intermedio llamado \textsc{Opher}, con varios objetivos en mente:
+
+Que no fuera ambiguo, y por tanto fuera parseable. Un lenguaje ambiguo es, como sabemos, el lenguaje natural. Esto dificulta en gran medida su entendimiento por los sistemas expertos ya que lo que se expresa depende mucho del contexto. Al crear un lenguaje no ambiguo autom\'aticamente se esta creando un lenguaje f\'acilmente parseable.
+
+Que fuera más sencillo de aprender que los lenguajes de consulta formales por un modelo de aprendizaje de máquina. El problema con Cypher en este caso es su versatilidad, como abarca una amplia gama de comandos a ejecutar en una base de de datos, llega m\'as alla de lo requerido para hacer consultas, lo que se traduce en m\'as conocimiento que adquirir y aprender a usar por el modelo. Esto unido a su sintaxis esp\'ecifica hace necesario el saber lidiar con par\'entesis balanceados, definir y referenciar variables, y otras especificidades del lenguaje.
+
+Que en su sencillez, abarcara la mayor parte de las posibles consultas que un usuario puede querer hacerle a su base de conocimiento. El lenguaje resultado tiene como AST:
+
+    
+\begin{figure}[htbp]
+  \centering
+  \includesvg{ast.svg}
+  \caption{svg image}
+\end{figure}
+
+Este lenguaje es capaz de representar una amplia gama de consultas. Su estructura es la siguiente:
+
+\verb|SELECT ENTITY <Filtros de Entidad> RETURN <Filtros de Retorno>|\\
+
+Los <Filtros de Entidad> que soporta el lenguaje son:
+\begin{itemize}
+    \item El filtro por tipo de entitades como:\\   
+    \verb|Person, Movie|:\\
+    \verb|SELECT ENTITY Person ...|\\
+    \verb|SELECT ENTITY Movie ...|\\
+
+    \item El filtro por atributos de entidades como:\\
+    \verb|age, name|:\\
+    \verb|SELECT ENTITY Person WHERE age GT 22 ...|\\
+    \verb|SELECT ENTITY Person WHERE name EQ "John" ...|\\
+    
+    La lista completa de filtros que admite son:\\
+    
+    \verb|Equals, Not Equals, Greather than, Lower than, Greather or Equals,|\\
+    \verb |Lower or Equals, Contains, Start With, Ends With, Is Null, Is Not Null.|\\
+
+\end{itemize}
+
+Los <Filtros de Retorno> que soporta el lenguaje son:
+\begin{itemize}
+    \item Las Agregaciones:\\
+    \verb |Sum, Average, Count, Max, Min, Collect.|\\
+
+    \verb|SELECT ENTITY Person RETURN SUM age|\\
+    \verb|SELECT ENTITY Person RETURN COUNT|\\
+    \verb|SELECT ENTITY Person RETURN COLLECT name|\\
+    \verb|SELECT ENTITY Person RETURN MAX age|\\
+    \verb|SELECT ENTITY Person RETURN *|\\
+
+
+    \item El Orden en que se muestran los resultados:\\
+    \verb|SELECT ENTITY Person RETURN * ORDER BY age DESC|\\
+    \verb|SELECT ENTITY Person RETURN * ORDER BY name ASC|\\
+
+    \item El L\'imite de resultados:\\
+    \verb|SELECT ENTITY Person RETURN * LIMIT 10|\\
+    \verb|SELECT ENTITY Person RETURN * ORDER BY age ASC LIMIT 20|\\
+    
+\end{itemize}
+
+Obs\'ervese que al igual que en Cypher, no se soportan Agregaciones y restricci\'on de Orden a la vez. No tendr\'ia sentido ordenar los resultados de una agregaci\'on.\\
+
+Una caracter\'istica del lenguaje es que el significado sem\'antico detr\'as de una consulta solo tiene una manera de expresarse en Opher, lo que lo hace no ambiguo. Adem\'as, la transformaci\'on entre Cypher y Opher es lineal en ambos sentidos, la transpilaci\'on de una instancia de AST de Opher a Cypher se hace s\'olo de una manera, y una consulta en Cypher tiene s\'olo una manera de ser expresada en Opher.\\
+
+
+\section{Parser}
+\label{parser}
+Este m\'odulo es el encargado de parsear Opher en formato de texto a su representaci\'on en formato de AST. De esta manera se logra tener la consulta de forma estructurada y posibilita el hacerle transformaciones y chequeos de validaci\'on. Se hicieron 2 implementaciones de este m\'odulo:
+
+La primera con una pila, que iba sacando de la pila en orden inverso, y construyendo el nodo que tocara en el AST. Esta no era resistente a errores de sintaxis y no soportaba cambios menores en la estructura del lenguaje sin un gran cambio en su implementaci\'on. Por estas razones se desech\'o.\\
+
+Se implement\'o una segunda versi\'on que era mas f\'acil de mantener y m\'as robusta a cambios en la estructura del lenguaje. Funciona semejante a un patr\'on Visitor sobre el AST de Opher. Recorre en pre-orden el \'arbol del lenguaje y busca en un rango espec\'ifico de la consulta por la palabra clave del nodo actual, y se manda a buscar los hijos de ese nodo en un rango mas restringido.\\
+
+Por ejemplo, al tratar de parsear la consulta que hab\'ia dejado el \nameref{post-proc}:\\
+\verb|SELECT ENTITY Person WHERE age LTE 22 RETURN COLLECT name|\\
+
+Se crea el nodo \textsc{Select}, y se busca la palabra ``SELECT'' en la consulta en el rango [principio:fin]. Se encuentra la palabra en la posici\'on 0. Luego se trata de completar sus nodos hijos, \textsc{Entity} y \textsc{Return}, con el resto de la consulta en rango [1:fin]. V\'ease:\\
+
+
+\begin{figure}[htbp]
+  \centering
+  \includesvg{parser-query.svg}
+  \caption{svg image}
+\end{figure}
+
+
+
+\section{Query-Maker}
+\label{query-m}
+A partir de una instancia de AST que representa la consulta, se crea la representaci\'on de esta en lenguaje de consulta formal. De esta tarea se encarga este m\'odulo.\\
+
+De esta forma la base de conocimiento puede procesar la consulta, ya que lo que es capaz de entender es Cypher, en nuestro caso de estudio. Adem\'as se pudiera cambiar a transpilar el lenguaje de bases de datos relacionales, SQL, u otro, con relativa facilidad, ya que se parte de una representaci\'on en AST que guarda la intenci\'on de la consulta.\\
+
+Este m\'odulo hace un recorrido en pre-orden del AST, y va formando la consulta en lenguaje de consulta formal con la ayuda de un patr\'on Visitor para construir cada nodo.\\
+
+V\'ease el ejemplo de la consulta que hab\'ia dejado el \nameref{parser}:\\
+
+\begin{figure}[htbp]
+  \centering
+  \includesvg{query-maker.svg}
+  \caption{svg image}
+\end{figure}
+
+
+
+\section{Graph-Contractor}
+\label{graphc}
+El recuperado de metadatos de la base de conocimiento lleva gran importancia, ya que puede hacer más preciso el reconocimiento de la intención de la consulta hecha por el usuario. Estos metadatos adem\'as juegan un papel central en el entrenamiento del modelo de aprendizaje texto a texto explicado en \nameref{post-proc}.\\
+
+Este módulo interact\'ua con la base de conocimiento directamente. Se encarga de extraer metadatos e informaci\'on relevante para los restantes m\'odulos.\\
+    
+Con el objetivo de interactuar e intercambiar datos se enlaza el m\'odulo a la base de datos, con url de enlace y contraseña. Posteriormente mediante llamados en cypher a la base de conocimiento se computan las entidades sus propiedades, y se buscan algunos valores de las propiedades. \\
+
+Un ejemplo de estos datos puede ser:\\
+\verb|Entities: Person, Movie|\\
+\verb|Properties: name, age, born, title, released|\\
+\verb|Values: ``Tom Hanks'', 66, 1956, ``Forrest Gump'', 1994|\\
+        
+Esta informaci\'on se usa a lo largo del \textit{pipeline} en varios lugares. 
+
+El m\'odulo \nameref{pre-proc} la usa para verificar si en la consulta se escribi\'o alguna palabra con error, para rectificarla antes de continuar. Adem\'as las etiquetas por las que sustituye las palabras: ``LABEL'', y ``ATTRIBUTE'' quieren decir que la palabra  sustituida es una entidad o una propiedad respectivamente.\\
+
+El m\'odulo de \nameref{data-g} la usa para generar los datos de entrenamiento, pidiendo el tipo de dato requerido en cada porci\'on de la consulta que este creando.\\
+
+
+
+\section{Data-Generation}
+\label{data-g}
+Este m\'odulo abarca toda la generaci\'on de datos para el entrenamiento del modelo de aprendizaje de m\'aquina. Para este caso se ve que es posible atacar el problema de la data entrenante resolviendo el problema inverso.\\
+
+Es decir teniendo ejemplos en \nameref{inter-lang}, generar consultas en lenguaje pseudo-natural que reflejen la misma intención. Al investigarlo se ve que es viable generar consultas en \nameref{inter-lang} basado en una base de conocimiento particular y a partir de ah\'i generar lo que podr\'ia ser una consulta en lenguaje m\'as parecido al natural.\\
+
+Esto se puede hacer de dos maneras:
+\begin{itemize}
+    \item Se busca una o varias personas para que hagan el trabajo de traducir la consulta. Esto tiene la ventaja de que el resultado va a ser muy fidedigno, parecido a como lucir\'ian las consultas originales, ya que el objetivo es parecerse a lo que generar\'ian humanos. Pero tiene la desventaja de que consume muchos recursos, en cuanto a personal y tiempo empleado. Como no se cuenta con ninguno de estos se debe de buscar otra v\'ia.
+    
+    \item Se crea un sistema especifico para la tarea, que cree muchas posibles consultas que se podr\'ian hacer sobre una base de conocimiento, en parejas de representaci\'on en lenguaje pseudo-natural y \nameref{inter-lang}. Esto tiene la desventaja de estar m\'as alejado de la realidad, de lo que generara un humano; pero si es suficientemente cercano puede ser de utilidad ya que se pueden generar montones de datos con este paradigma.
+\end{itemize}
+
+La via del humano era inviable, por la carencia de recursos para llevarla a cabo, por lo que se opt\'o por la 2da via. Para esto se crean 3 submódulos:
+
+\begin{itemize}
+    \item \nameref{ast-g}
+    \item \nameref{query-g}
+    \item \nameref{word-m}
+\end{itemize}
+
+Estos son los encargados de producir por cantidad pares de consultas sintéticas con su correspondiente representación en Opher, que ser\'an los que se usar\'an para entrenar al modelo explicado en \nameref{post-proc}. A continuaci\'on, a cada consulta sint\'etica se le reemplazan las palabras claves por etiquetas, para que el entrenamiento sea lo mas semejante a la data real que se le va a pasar, sin importar de que dominio sea de la base de conocimiento. Esto se hace con un manejo de cadenas de texto con expresiones regulares.\\
+
+Posteriormente  fue necesario introducir ruido en el sufijo de las etiquetas ``\verb|_i|'' y poner un n\'umero aleatorio. Esto debido a que se observó durante los experimentos que el modelo estaba mapeando por precedencia de los n\'umeros (\verb|Attribute_1| lo pon\'ia primero que \verb|Attribute_2|), y era algo que no se deseaba que aprendiera.\\
+
+Luego se eliminan las etiquetas y se recuperan las palabras originales por las que se sustituyeron. De esta forma el siguiente modulo construye, del lenguaje intermedio, el AST con valores en los nodos hojas iguales a los de la base de conocimiento especifica, con ayuda del \nameref{word-m}.
+
+\subsection{AST-Generator}
+\label{ast-g}
+Este m\'odulo se crea con el objetivo de que cree instancias aleatorias de consultas en formato de AST. Dado una base de conocimiento escogida en particular realiza un \textsc{RandomWalk}[] y genera virtualmente todas las posibles consultas que se pueden hacer sobre esta, que soporta el sistema.\\
+
+Para eso se apoya en el \nameref{graphc}, del cual extrae que nodos y atributos existen en la base de conocimiento. A nivel de implementaci\'on, es un patron Visitor sobre los nodos del \nameref{inter-lang}, realizando el \textsc{RandomWalk} sobre la base de datos.\\
+
+Contiene un \textit{helper}, \textsc{Ast-Context} que lleva la traza de las variables que ha creado, su tipo y propiedades que posee. Esto para que las propiedades y valores que se generan en los filtros sean congruente con el tipo de la variable elegida. A nivel de implementación es un diccionario: ``nombre de variable: etiqueta''.
+
+\subsubsection{Insertar Imagen}
+        
+\subsection{Query-Generator}
+\label{query-g}
+El Query-Generator es el encargado de generar representaciones en texto de las instancias de consultas en formato de AST. Esto lo puede lograr tanto en lenguaje natural como en \nameref{inter-lang}, lo que lo hace la piedra angular de la generaci\'on de data entrenante.\\
+
+Cambiando el glosario de términos de referencia provistos por el \nameref{word-m}, es capaz de generar representaciones distintas de la consulta. de esta forma es que admite la generaci\'on en lenguajes distintos.\\
+
+Gracias a los t\'erminos provistos por el \nameref{word-m}, a partir de una instancia de AST, genera variaciones que expresan la misma idea con diferentes palabras, alcanzando as\'i la capacidad de hacer par\'afrasis sobre las consultas con una cierta semejanza a lo que generar\'ia una persona.
+\subsubsection{Insertar Imagen}
+
+A la vez, con la correcta configuraci\'on en el \nameref{word-m} sería capaz de generar consultas en distintos idiomas con relativa facilidad. A nivel de implementaci\'on es un Visitor tambi\'en, sobre los nodos del \nameref{inter-lang}.
+
+\subsection{Word-Module}
+\label{word-m}
+
+Este 3er modulo carga con el conocimiento lingu\'istico, de sinónimos, y frases equivalentes de los nodos del \nameref{inter-lang}. Con la suma de este conocimiento permite crear par\'afrasis en la generaci\'on de texto en otros m\'odulos.\\
+
+Por tanto el papel de este m\'odulo es el de servir de nexo y separador a la vez, entre los m\'odulos creadores de consultas y el lenguaje en cual se genera esta. Lo anterior permite que cambiar de lenguaje en que se soportan las consultas sea solamente añadir un nuevo glosario de palabras y frases y reentrenar el modelo, sin tener que modificar el resto del sistema.\\ 
+
+A nivel de implementación es un grupo de diccionarios que guardan la relaci\'on entre significado sem\'antico de los nodos del \nameref{inter-lang} y las distintas maneras de expresarlo en texto. 

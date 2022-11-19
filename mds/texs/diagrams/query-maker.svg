@@ -1,0 +1,301 @@
+<?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="521pt" height="620pt" viewBox="0.00 0.00 521.27 620.00">
+<g id="graph0" class="graph" transform="translate(4.920861072430444,596.4680165728964) scale(0.9609278384610339)" data-name="G">
+
+<polygon fill="white" stroke="none" points="-4,4 -4,-616 517.27,-616 517.27,4 -4,4" style=""/>
+<!-- S -->
+<g id="node1" class="node" pointer-events="visible" data-name="S">
+
+<polygon fill="lightblue" stroke="black" points="283.27,-108 229.27,-108 229.27,-72 283.27,-72 283.27,-108" style=""/>
+<text text-anchor="middle" x="256.27" y="-85.8" font-family="Times,serif" font-size="14.00" style="">Select</text>
+</g>
+<!-- Q1 -->
+<g id="node20" class="node" pointer-events="visible" data-name="Q1">
+
+<polygon fill="aquamarine" stroke="black" points="472.22,-30 28.33,-30 28.33,-6 472.22,-6 484.22,-18 472.22,-30" style=""/>
+<text text-anchor="middle" x="256.27" y="-13.8" font-family="Times,serif" font-size="14.00" style="">MATCH (var1:Person) WHERE var1.age &lt;= 22 RETURN collect(var1.name)</text>
+</g>
+<!-- S&#45;&gt;Q1 -->
+<g id="edge24" class="edge" data-name="S-&gt;Q1">
+
+<path fill="none" stroke="black" d="M256.27,-71.7C256.27,-64.41 256.27,-55.73 256.27,-47.54" style=""/>
+<polygon fill="black" stroke="black" points="259.77,-47.62 256.27,-37.62 252.77,-47.62 259.77,-47.62" style=""/>
+</g>
+<!-- E -->
+<g id="node2" class="node" pointer-events="visible" data-name="E">
+
+<polygon fill="lightblue" stroke="black" points="247.27,-252 193.27,-252 193.27,-216 247.27,-216 247.27,-252" style=""/>
+<text text-anchor="middle" x="220.27" y="-229.8" font-family="Times,serif" font-size="14.00" style="">Entity</text>
+</g>
+<!-- Q2 -->
+<g id="node21" class="node" pointer-events="visible" data-name="Q2">
+
+<polygon fill="aquamarine" stroke="black" points="445.16,-174 55.38,-174 55.38,-150 445.16,-150 457.16,-162 445.16,-174" style=""/>
+<text text-anchor="middle" x="256.27" y="-157.8" font-family="Times,serif" font-size="14.00" style="">(var1:Person) WHERE var1.age &lt;= 22 RETURN collect(var1.name)</text>
+</g>
+<!-- E&#45;&gt;Q2 -->
+<g id="edge21" class="edge" data-name="E-&gt;Q2">
+
+<path fill="none" stroke="black" d="M229.17,-215.7C233.14,-207.98 237.91,-198.71 242.33,-190.11" style=""/>
+<polygon fill="black" stroke="black" points="245.32,-191.94 246.78,-181.45 239.1,-188.74 245.32,-191.94" style=""/>
+</g>
+<!-- R -->
+<g id="node3" class="node" pointer-events="visible" data-name="R">
+
+<polygon fill="lightblue" stroke="black" points="362.38,-252 308.17,-252 308.17,-216 362.38,-216 362.38,-252" style=""/>
+<text text-anchor="middle" x="335.27" y="-229.8" font-family="Times,serif" font-size="14.00" style="">Return</text>
+</g>
+<!-- R&#45;&gt;Q2 -->
+<g id="edge22" class="edge" data-name="R-&gt;Q2">
+
+<path fill="none" stroke="black" d="M315.74,-215.7C306.25,-207.28 294.66,-197.02 284.25,-187.79" style=""/>
+<polygon fill="black" stroke="black" points="286.79,-185.36 276.98,-181.35 282.15,-190.6 286.79,-185.36" style=""/>
+</g>
+<!-- T -->
+<g id="node4" class="node" pointer-events="visible" data-name="T">
+
+<polygon fill="lightblue" stroke="black" points="81.27,-396 27.27,-396 27.27,-360 81.27,-360 81.27,-396" style=""/>
+<text text-anchor="middle" x="54.27" y="-373.8" font-family="Times,serif" font-size="14.00" style="">Type</text>
+</g>
+<!-- Q3 -->
+<g id="node22" class="node" pointer-events="visible" data-name="Q3">
+
+<polygon fill="aquamarine" stroke="black" points="248.83,-318 27.71,-318 27.71,-294 248.83,-294 260.83,-306 248.83,-318" style=""/>
+<text text-anchor="middle" x="144.27" y="-301.8" font-family="Times,serif" font-size="14.00" style="">(var1:Person) WHERE var1.age &lt;= 22</text>
+</g>
+<!-- T&#45;&gt;Q3 -->
+<g id="edge18" class="edge" data-name="T-&gt;Q3">
+
+<path fill="none" stroke="black" d="M76.52,-359.7C87.55,-351.11 101.06,-340.61 113.11,-331.24" style=""/>
+<polygon fill="black" stroke="black" points="115.03,-334.18 120.77,-325.28 110.73,-328.65 115.03,-334.18" style=""/>
+</g>
+<!-- F -->
+<g id="node5" class="node" pointer-events="visible" data-name="F">
+
+<polygon fill="lightblue" stroke="black" points="171.27,-396 117.27,-396 117.27,-360 171.27,-360 171.27,-396" style=""/>
+<text text-anchor="middle" x="144.27" y="-373.8" font-family="Times,serif" font-size="14.00" style="">Filter</text>
+</g>
+<!-- F&#45;&gt;Q3 -->
+<g id="edge19" class="edge" data-name="F-&gt;Q3">
+
+<path fill="none" stroke="black" d="M144.27,-359.7C144.27,-352.41 144.27,-343.73 144.27,-335.54" style=""/>
+<polygon fill="black" stroke="black" points="147.77,-335.62 144.27,-325.62 140.77,-335.62 147.77,-335.62" style=""/>
+</g>
+<!-- A -->
+<g id="node6" class="node" pointer-events="visible" data-name="A">
+
+<polygon fill="lightblue" stroke="black" points="369.25,-396 283.29,-396 283.29,-360 369.25,-360 369.25,-396" style=""/>
+<text text-anchor="middle" x="326.27" y="-373.8" font-family="Times,serif" font-size="14.00" style="">Aggregation</text>
+</g>
+<!-- Q4 -->
+<g id="node23" class="node" pointer-events="visible" data-name="Q4">
+
+<polygon fill="aquamarine" stroke="black" points="456.6,-318 287.94,-318 287.94,-294 456.6,-294 468.6,-306 456.6,-318" style=""/>
+<text text-anchor="middle" x="378.27" y="-301.8" font-family="Times,serif" font-size="14.00" style="">RETURN collect(var1.name)</text>
+</g>
+<!-- A&#45;&gt;Q4 -->
+<g id="edge6" class="edge" data-name="A-&gt;Q4">
+
+<path fill="none" stroke="black" d="M339.13,-359.7C345.05,-351.73 352.2,-342.1 358.76,-333.26" style=""/>
+<polygon fill="black" stroke="black" points="361.51,-335.43 364.66,-325.32 355.89,-331.26 361.51,-335.43" style=""/>
+</g>
+<!-- O -->
+<g id="node7" class="node" pointer-events="visible" data-name="O">
+
+<polygon fill="lightblue" stroke="black" points="441.27,-396 387.27,-396 387.27,-360 441.27,-360 441.27,-396" style=""/>
+<text text-anchor="middle" x="414.27" y="-373.8" font-family="Times,serif" font-size="14.00" style="">Order</text>
+</g>
+<!-- O&#45;&gt;Q4 -->
+<g id="edge7" class="edge" data-name="O-&gt;Q4">
+
+<path fill="none" stroke="black" d="M405.37,-359.7C401.41,-351.98 396.64,-342.71 392.22,-334.11" style=""/>
+<polygon fill="black" stroke="black" points="395.45,-332.74 387.76,-325.45 389.22,-335.94 395.45,-332.74" style=""/>
+</g>
+<!-- L -->
+<g id="node8" class="node" pointer-events="visible" data-name="L">
+
+<polygon fill="lightblue" stroke="black" points="513.27,-396 459.27,-396 459.27,-360 513.27,-360 513.27,-396" style=""/>
+<text text-anchor="middle" x="486.27" y="-373.8" font-family="Times,serif" font-size="14.00" style="">Limit</text>
+</g>
+<!-- L&#45;&gt;Q4 -->
+<g id="edge8" class="edge" data-name="L-&gt;Q4">
+
+<path fill="none" stroke="black" d="M459.3,-359.52C445.67,-350.68 428.94,-339.84 414.23,-330.3" style=""/>
+<polygon fill="black" stroke="black" points="416.47,-327.59 406.17,-325.08 412.66,-333.46 416.47,-327.59" style=""/>
+</g>
+<!-- At1 -->
+<g id="node9" class="node" pointer-events="visible" data-name="At1">
+
+<polygon fill="lightblue" stroke="black" points="66.32,-540 0.23,-540 0.23,-504 66.32,-504 66.32,-540" style=""/>
+<text text-anchor="middle" x="33.27" y="-517.8" font-family="Times,serif" font-size="14.00" style="">Attribute</text>
+</g>
+<!-- Q5 -->
+<g id="node24" class="node" pointer-events="visible" data-name="Q5">
+
+<polygon fill="aquamarine" stroke="black" points="195.26,-462 81.29,-462 81.29,-438 195.26,-438 207.26,-450 195.26,-462" style=""/>
+<text text-anchor="middle" x="144.27" y="-445.8" font-family="Times,serif" font-size="14.00" style="">WHERE age &lt;= 22</text>
+</g>
+<!-- At1&#45;&gt;Q5 -->
+<g id="edge13" class="edge" data-name="At1-&gt;Q5">
+
+<path fill="none" stroke="black" d="M61,-503.52C75.01,-494.68 92.2,-483.84 107.32,-474.3" style=""/>
+<polygon fill="black" stroke="black" points="109.03,-477.36 115.62,-469.07 105.3,-471.44 109.03,-477.36" style=""/>
+</g>
+<!-- Ff -->
+<g id="node10" class="node" pointer-events="visible" data-name="Ff">
+
+<polygon fill="lightblue" stroke="black" points="183.88,-540 84.66,-540 84.66,-504 183.88,-504 183.88,-540" style=""/>
+<text text-anchor="middle" x="134.27" y="-517.8" font-family="Times,serif" font-size="14.00" style="">Filter Function</text>
+</g>
+<!-- Ff&#45;&gt;Q5 -->
+<g id="edge14" class="edge" data-name="Ff-&gt;Q5">
+
+<path fill="none" stroke="black" d="M136.74,-503.7C137.8,-496.32 139.05,-487.52 140.24,-479.25" style=""/>
+<polygon fill="black" stroke="black" points="143.67,-480 141.61,-469.6 136.74,-479.01 143.67,-480" style=""/>
+</g>
+<!-- V -->
+<g id="node11" class="node" pointer-events="visible" data-name="V">
+
+<polygon fill="lightblue" stroke="black" points="256.27,-540 202.27,-540 202.27,-504 256.27,-504 256.27,-540" style=""/>
+<text text-anchor="middle" x="229.27" y="-517.8" font-family="Times,serif" font-size="14.00" style="">Value</text>
+</g>
+<!-- V&#45;&gt;Q5 -->
+<g id="edge15" class="edge" data-name="V-&gt;Q5">
+
+<path fill="none" stroke="black" d="M208.26,-503.7C197.94,-495.2 185.33,-484.81 174.04,-475.51" style=""/>
+<polygon fill="black" stroke="black" points="176.45,-472.96 166.5,-469.31 172,-478.37 176.45,-472.96" style=""/>
+</g>
+<!-- Af -->
+<g id="node12" class="node" pointer-events="visible" data-name="Af">
+
+<polygon fill="lightblue" stroke="black" points="414.03,-540 274.51,-540 274.51,-504 414.03,-504 414.03,-540" style=""/>
+<text text-anchor="middle" x="344.27" y="-517.8" font-family="Times,serif" font-size="14.00" style="">Aggregation Function</text>
+</g>
+<!-- Q6 -->
+<g id="node25" class="node" pointer-events="visible" data-name="Q6">
+
+<polygon fill="aquamarine" stroke="black" points="378.72,-462 297.82,-462 297.82,-438 378.72,-438 390.72,-450 378.72,-462" style=""/>
+<text text-anchor="middle" x="344.27" y="-445.8" font-family="Times,serif" font-size="14.00" style="">collect(name)</text>
+</g>
+<!-- Af&#45;&gt;Q6 -->
+<g id="edge3" class="edge" data-name="Af-&gt;Q6">
+
+<path fill="none" stroke="black" d="M344.27,-503.7C344.27,-496.41 344.27,-487.73 344.27,-479.54" style=""/>
+<polygon fill="black" stroke="black" points="347.77,-479.62 344.27,-469.62 340.77,-479.62 347.77,-479.62" style=""/>
+</g>
+<!-- At -->
+<g id="node13" class="node" pointer-events="visible" data-name="At">
+
+<polygon fill="lightblue" stroke="black" points="498.32,-540 432.23,-540 432.23,-504 498.32,-504 498.32,-540" style=""/>
+<text text-anchor="middle" x="465.27" y="-517.8" font-family="Times,serif" font-size="14.00" style="">Attribute</text>
+</g>
+<!-- At&#45;&gt;Q6 -->
+<g id="edge4" class="edge" data-name="At-&gt;Q6">
+
+<path fill="none" stroke="black" d="M435.05,-503.52C419.49,-494.51 400.32,-483.42 383.61,-473.76" style=""/>
+<polygon fill="black" stroke="black" points="385.83,-471 375.42,-469.02 382.32,-477.06 385.83,-471" style=""/>
+</g>
+<!-- Person -->
+<g id="node14" class="node" pointer-events="visible" data-name="Person">
+
+<polygon fill="darkturquoise" stroke="black" points="51.38,-462 9.16,-462 9.16,-438 51.38,-438 63.38,-450 51.38,-462" style=""/>
+<text text-anchor="middle" x="36.27" y="-445.8" font-family="Times,serif" font-size="14.00" style="">Person</text>
+</g>
+<!-- Person&#45;&gt;T -->
+<g id="edge17" class="edge" data-name="Person-&gt;T">
+
+<path fill="none" stroke="black" d="M40.72,-431.7C42.62,-424.32 44.88,-415.52 47.01,-407.25" style=""/>
+<polygon fill="black" stroke="black" points="50.4,-408.13 49.5,-397.57 43.62,-406.38 50.4,-408.13" style=""/>
+</g>
+<!-- Age -->
+<g id="node15" class="node" pointer-events="visible" data-name="Age">
+
+<polygon fill="darkturquoise" stroke="black" points="48.27,-606 6.27,-606 6.27,-582 48.27,-582 60.27,-594 48.27,-606" style=""/>
+<text text-anchor="middle" x="33.27" y="-589.8" font-family="Times,serif" font-size="14.00" style="">age</text>
+</g>
+<!-- Age&#45;&gt;At1 -->
+<g id="edge12" class="edge" data-name="Age-&gt;At1">
+
+<path fill="none" stroke="black" d="M33.27,-575.7C33.27,-568.41 33.27,-559.73 33.27,-551.54" style=""/>
+<polygon fill="black" stroke="black" points="36.77,-551.62 33.27,-541.62 29.77,-551.62 36.77,-551.62" style=""/>
+</g>
+<!-- LTE -->
+<g id="node16" class="node" pointer-events="visible" data-name="LTE">
+
+<polygon fill="darkturquoise" stroke="black" points="149.27,-606 107.27,-606 107.27,-582 149.27,-582 161.27,-594 149.27,-606" style=""/>
+<text text-anchor="middle" x="134.27" y="-589.8" font-family="Times,serif" font-size="14.00" style="">LTE</text>
+</g>
+<!-- LTE&#45;&gt;Ff -->
+<g id="edge11" class="edge" data-name="LTE-&gt;Ff">
+
+<path fill="none" stroke="black" d="M134.27,-575.7C134.27,-568.41 134.27,-559.73 134.27,-551.54" style=""/>
+<polygon fill="black" stroke="black" points="137.77,-551.62 134.27,-541.62 130.77,-551.62 137.77,-551.62" style=""/>
+</g>
+<!-- 22 -->
+<g id="node17" class="node" pointer-events="visible" data-name="22">
+
+<polygon fill="darkturquoise" stroke="black" points="244.27,-606 202.27,-606 202.27,-582 244.27,-582 256.27,-594 244.27,-606" style=""/>
+<text text-anchor="middle" x="229.27" y="-589.8" font-family="Times,serif" font-size="14.00" style="">22</text>
+</g>
+<!-- 22&#45;&gt;V -->
+<g id="edge10" class="edge" data-name="22-&gt;V">
+
+<path fill="none" stroke="black" d="M229.27,-575.7C229.27,-568.41 229.27,-559.73 229.27,-551.54" style=""/>
+<polygon fill="black" stroke="black" points="232.77,-551.62 229.27,-541.62 225.77,-551.62 232.77,-551.62" style=""/>
+</g>
+<!-- Collect -->
+<g id="node18" class="node" pointer-events="visible" data-name="Collect">
+
+<polygon fill="darkturquoise" stroke="black" points="371.77,-606 304.78,-606 304.78,-582 371.77,-582 383.77,-594 371.77,-606" style=""/>
+<text text-anchor="middle" x="344.27" y="-589.8" font-family="Times,serif" font-size="14.00" style="">COLLECT</text>
+</g>
+<!-- Collect&#45;&gt;Af -->
+<g id="edge2" class="edge" data-name="Collect-&gt;Af">
+
+<path fill="none" stroke="black" d="M344.27,-575.7C344.27,-568.41 344.27,-559.73 344.27,-551.54" style=""/>
+<polygon fill="black" stroke="black" points="347.77,-551.62 344.27,-541.62 340.77,-551.62 347.77,-551.62" style=""/>
+</g>
+<!-- name -->
+<g id="node19" class="node" pointer-events="visible" data-name="name">
+
+<polygon fill="darkturquoise" stroke="black" points="480.27,-606 438.27,-606 438.27,-582 480.27,-582 492.27,-594 480.27,-606" style=""/>
+<text text-anchor="middle" x="465.27" y="-589.8" font-family="Times,serif" font-size="14.00" style="">name</text>
+</g>
+<!-- name&#45;&gt;At -->
+<g id="edge1" class="edge" data-name="name-&gt;At">
+
+<path fill="none" stroke="black" d="M465.27,-575.7C465.27,-568.41 465.27,-559.73 465.27,-551.54" style=""/>
+<polygon fill="black" stroke="black" points="468.77,-551.62 465.27,-541.62 461.77,-551.62 468.77,-551.62" style=""/>
+</g>
+<!-- Q2&#45;&gt;S -->
+<g id="edge23" class="edge" data-name="Q2-&gt;S">
+
+<path fill="none" stroke="black" d="M256.27,-143.7C256.27,-136.41 256.27,-127.73 256.27,-119.54" style=""/>
+<polygon fill="black" stroke="black" points="259.77,-119.62 256.27,-109.62 252.77,-119.62 259.77,-119.62" style=""/>
+</g>
+<!-- Q3&#45;&gt;E -->
+<g id="edge20" class="edge" data-name="Q3-&gt;E">
+
+<path fill="none" stroke="black" d="M163.06,-287.7C172.1,-279.37 183.12,-269.22 193.06,-260.07" style=""/>
+<polygon fill="black" stroke="black" points="195.34,-262.72 200.33,-253.37 190.6,-257.57 195.34,-262.72" style=""/>
+</g>
+<!-- Q4&#45;&gt;R -->
+<g id="edge9" class="edge" data-name="Q4-&gt;R">
+
+<path fill="none" stroke="black" d="M367.64,-287.7C362.85,-279.9 357.08,-270.51 351.75,-261.83" style=""/>
+<polygon fill="black" stroke="black" points="354.79,-260.08 346.57,-253.39 348.82,-263.75 354.79,-260.08" style=""/>
+</g>
+<!-- Q5&#45;&gt;F -->
+<g id="edge16" class="edge" data-name="Q5-&gt;F">
+
+<path fill="none" stroke="black" d="M144.27,-431.7C144.27,-424.41 144.27,-415.73 144.27,-407.54" style=""/>
+<polygon fill="black" stroke="black" points="147.77,-407.62 144.27,-397.62 140.77,-407.62 147.77,-407.62" style=""/>
+</g>
+<!-- Q6&#45;&gt;A -->
+<g id="edge5" class="edge" data-name="Q6-&gt;A">
+
+<path fill="none" stroke="black" d="M339.82,-431.7C337.93,-424.32 335.66,-415.52 333.54,-407.25" style=""/>
+<polygon fill="black" stroke="black" points="336.93,-406.38 331.05,-397.57 330.15,-408.13 336.93,-406.38" style=""/>
+</g>
+</g>
+</svg>
